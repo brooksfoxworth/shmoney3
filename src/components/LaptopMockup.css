@@ -1,0 +1,53 @@
+/* Laptop Mockup Styles - Single Image Approach */
+
+.laptop-mockup {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    transform: perspective(1400px) rotateX(-15deg) rotateY(8deg);
+    transform-origin: center bottom;
+    transition: transform 0.5s ease;
+}
+
+.laptop-frame {
+    width: 100%;
+    height: auto;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.3s ease;
+}
+
+.laptop-frame:hover {
+    transform: scale(1.02);
+}
+
+/* Remove the hover effect causing the highlight */
+.laptop-mockup:hover {
+    transform: perspective(1400px) rotateX(-15deg) rotateY(8deg) scale(1.03);
+}
+
+@media (max-width: 1024px) {
+    .laptop-frame {
+        width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .laptop-frame {
+        width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .laptop-frame {
+        width: 300px;
+    }
+}
+
+@media (max-width: 640px) {
+    .laptop-mockup {
+        width: 360px;
+    }
+}
