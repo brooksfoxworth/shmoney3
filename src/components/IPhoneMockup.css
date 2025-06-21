@@ -101,6 +101,14 @@
     }
 }
 
+/* Hide bubble effect on mobile */
+@media (max-width: 640px) {
+    .iphone-mockup::before,
+    .iphone-mockup::after {
+        display: none;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
     .iphone-mockup {
@@ -131,4 +139,4 @@
 
 .reel-inside-iphone-final {
     display: none;
-} 
+}
