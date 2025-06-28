@@ -2,10 +2,10 @@
 
 /* Updated to match the "services" title gradient */
 /* Softer, less vivid version of the services title gradient */
+/* Revert to original or close to original static background */
 .animated-gallery-bg {
-  background: linear-gradient(90deg, #93c5fd 0%, #dbeafe 40%, #fde68a 80%, #fbcfe8 100%);
-  background-size: 300% 200%;
-  animation: gallery-waves 60s cubic-bezier(0.4,0,0.2,1) infinite;
+  background: linear-gradient(120deg, #bae6fd 0%, #fdba74 100%);
+  background-size: cover;
   position: relative;
 }
 

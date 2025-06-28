@@ -82,9 +82,14 @@ const Portfolio = () => {
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
             Making{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400 bg-clip-text text-transparent animate-gradient-shimmer font-extrabold relative">
+            <span className={
+              `bg-gradient-to-r from-blue-400 via-blue-500 to-blue-400 bg-clip-text text-transparent font-extrabold relative ` +
+              (!isMobile ? 'animate-gradient-shimmer' : '')
+            }>
               Waves
-              <span className="absolute left-0 top-0 w-full h-full animate-shimmer-smooth pointer-events-none"></span>
+              {!isMobile && (
+                <span className="absolute left-0 top-0 w-full h-full animate-shimmer-smooth pointer-events-none"></span>
+              )}
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
