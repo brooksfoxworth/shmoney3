@@ -1,5 +1,11 @@
 import { ExternalLink, ArrowRight, Sparkles, TrendingUp, Users, Target } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import React, { useState, useEffect } from 'react';
 
 const Portfolio = () => {
   const projects = [
@@ -34,6 +40,14 @@ const Portfolio = () => {
     }
   ];
 
+  // Mobile detection
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section id="portfolio" className="py-20 relative overflow-hidden">
       {/* Background elements */}
@@ -55,79 +69,156 @@ const Portfolio = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {projects.map((project, index) => {
-            const IconComponent = project.icon;
-            return (
-              <Card 
-                key={index} 
-                className={`group relative overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-4 border-0 bg-white/80 backdrop-blur-sm ${project.link ? 'cursor-pointer' : ''}`}
-                onClick={() => {
-                  if (project.link) {
-                    window.open(project.link, '_blank', 'noopener,noreferrer');
-                  }
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500" 
-                     style={{ background: `linear-gradient(135deg, ${project.color.split(' ')[1]}, ${project.color.split(' ')[3]})` }}>
-                </div>
-                
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className="flex items-center gap-2 text-white mb-2">
-                        <IconComponent className="w-5 h-5" />
-                        <span className="font-semibold">{project.category}</span>
+        {isMobile ? (
+          <Swiper
+            modules={[Pagination, Navigation]}
+            pagination={{ clickable: true }}
+            navigation={false}
+            loop={true}
+            slidesPerView={1}
+            spaceBetween={20}
+            className="portfolio-swiper mb-16"
+            style={{ maxWidth: '100vw', overflowX: 'hidden' }}
+          >
+            {projects.map((project, index) => {
+              const IconComponent = project.icon;
+              return (
+                <SwiperSlide key={index}>
+                  <Card 
+                    className={`group relative overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-4 border-0 bg-white/80 backdrop-blur-sm ${project.link ? 'cursor-pointer' : ''}`}
+                    onClick={() => {
+                      if (project.link) {
+                        window.open(project.link, '_blank', 'noopener,noreferrer');
+                      }
+                    }}
+                    style={{ maxWidth: 400, margin: '0 auto' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500" 
+                         style={{ background: `linear-gradient(135deg, ${project.color.split(' ')[1]}, ${project.color.split(' ')[3]})` }}>
+                    </div>
+                    <div className="relative overflow-hidden">
+                      <img 
+                        src={project.image} 
+                        alt={project.title}
+                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <div className="absolute bottom-6 left-6 right-6">
+                          <div className="flex items-center gap-2 text-white mb-2">
+                            <IconComponent className="w-5 h-5" />
+                            <span className="font-semibold">{project.category}</span>
+                          </div>
+                          <div className="text-orange-300 font-medium">{project.result}</div>
+                        </div>
                       </div>
-                      <div className="text-orange-300 font-medium">{project.result}</div>
+                      {/* Floating icon */}
+                      <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110">
+                        <IconComponent className="w-6 h-6 text-primary" />
+                      </div>
+                    </div>
+                    <CardContent className="p-8">
+                      <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-600 mb-6 leading-relaxed">{project.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className={`inline-block bg-gradient-to-r ${project.color} text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg`}>
+                          {project.category}
+                        </span>
+                        {project.link ? (
+                          <a 
+                            href={project.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-orange-500 transition-all duration-300 group/btn"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink className="h-6 w-6 group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300" />
+                          </a>
+                        ) : (
+                          <button className="text-primary hover:text-orange-500 transition-all duration-300 group/btn">
+                            <ExternalLink className="h-6 w-6 group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300" />
+                          </button>
+                        )}
+                      </div>
+                    </CardContent>
+                    {/* Animated border effect */}
+                    <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-gradient-to-r group-hover:from-blue-400 group-hover:to-orange-400 transition-all duration-500 opacity-0 group-hover:opacity-50"></div>
+                  </Card>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            {projects.map((project, index) => {
+              const IconComponent = project.icon;
+              return (
+                <Card 
+                  key={index} 
+                  className={`group relative overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-4 border-0 bg-white/80 backdrop-blur-sm ${project.link ? 'cursor-pointer' : ''}`}
+                  onClick={() => {
+                    if (project.link) {
+                      window.open(project.link, '_blank', 'noopener,noreferrer');
+                    }
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-500" 
+                       style={{ background: `linear-gradient(135deg, ${project.color.split(' ')[1]}, ${project.color.split(' ')[3]})` }}>
+                  </div>
+                  <div className="relative overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <div className="flex items-center gap-2 text-white mb-2">
+                          <IconComponent className="w-5 h-5" />
+                          <span className="font-semibold">{project.category}</span>
+                        </div>
+                        <div className="text-orange-300 font-medium">{project.result}</div>
+                      </div>
+                    </div>
+                    {/* Floating icon */}
+                    <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110">
+                      <IconComponent className="w-6 h-6 text-primary" />
                     </div>
                   </div>
-                  
-                  {/* Floating icon */}
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110">
-                    <IconComponent className="w-6 h-6 text-primary" />
-                  </div>
-                </div>
-                
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{project.description}</p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className={`inline-block bg-gradient-to-r ${project.color} text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg`}>
-                      {project.category}
-                    </span>
-                    {project.link ? (
-                      <a 
-                        href={project.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-orange-500 transition-all duration-300 group/btn"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <ExternalLink className="h-6 w-6 group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300" />
-                      </a>
-                    ) : (
-                      <button className="text-primary hover:text-orange-500 transition-all duration-300 group/btn">
-                        <ExternalLink className="h-6 w-6 group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300" />
-                      </button>
-                    )}
-                  </div>
-                </CardContent>
-                
-                {/* Animated border effect */}
-                <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-gradient-to-r group-hover:from-blue-400 group-hover:to-orange-400 transition-all duration-500 opacity-0 group-hover:opacity-50"></div>
-              </Card>
-            );
-          })}
-        </div>
+                  <CardContent className="p-8">
+                    <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-600 mb-6 leading-relaxed">{project.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className={`inline-block bg-gradient-to-r ${project.color} text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg`}>
+                        {project.category}
+                      </span>
+                      {project.link ? (
+                        <a 
+                          href={project.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary hover:text-orange-500 transition-all duration-300 group/btn"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink className="h-6 w-6 group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300" />
+                        </a>
+                      ) : (
+                        <button className="text-primary hover:text-orange-500 transition-all duration-300 group/btn">
+                          <ExternalLink className="h-6 w-6 group-hover/btn:scale-125 group-hover/btn:rotate-12 transition-transform duration-300" />
+                        </button>
+                      )}
+                    </div>
+                  </CardContent>
+                  {/* Animated border effect */}
+                  <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-gradient-to-r group-hover:from-blue-400 group-hover:to-orange-400 transition-all duration-500 opacity-0 group-hover:opacity-50"></div>
+                </Card>
+              );
+            })}
+          </div>
+        )}
 
         {/* Call to action with special styling */}
         <div className="text-center">

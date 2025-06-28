@@ -109,7 +109,13 @@ const Navigation = () => {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t absolute w-full left-0">
+        <div className="md:hidden bg-white border-t fixed w-full left-0 top-0 z-[9999] shadow-lg">
+          {/* Close button */}
+          <div className="flex justify-end p-4">
+            <button onClick={() => setIsOpen(false)} aria-label="Close menu" className="text-gray-700 hover:text-primary focus:outline-none">
+              <X size={28} />
+            </button>
+          </div>
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {['Home', 'Services', 'Portfolio', 'Contact'].map((item) => (
               <button
