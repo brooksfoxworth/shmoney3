@@ -14,11 +14,10 @@ const Hero = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center lg:overflow-hidden pt-16 lg:pt-20 xl:pt-24">
       {/* Enhanced coastal background with floating particles */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-cyan-50 to-orange-50"></div>
-        
-        {/* Floating particles effect */}
-        <div className="absolute inset-0">
+        {/* Floating particles effect - z-0 to ensure under header/nav */}
+        <div className="absolute inset-0 z-0">
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
@@ -32,7 +31,6 @@ const Hero = () => {
             />
           ))}
         </div>
-        
         {/* Enhanced layered waves at bottom with shimmer effect */}
         <svg 
           className="absolute bottom-0 left-0 w-full h-64 text-blue-100 wave-shimmer" 
