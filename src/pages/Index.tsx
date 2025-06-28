@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import Footer from '@/components/Footer';
+import Gallery from '@/components/Gallery';
 
 const Services = lazy(() => import('@/components/Services'));
 const Portfolio = lazy(() => import('@/components/Portfolio'));
@@ -15,6 +16,7 @@ const Index = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Services />
         <Portfolio />
+        <Gallery />
         <Contact />
       </Suspense>
       <Footer />
