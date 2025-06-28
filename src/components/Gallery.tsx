@@ -45,23 +45,45 @@ const galleryVideos = [
 const Gallery: React.FC = () => {
   const [modalIndex, setModalIndex] = useState(-1);
 
-  // This hook is a placeholder for checking mobile view.
-  const useIsMobile = () => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    useEffect(() => {
-      const handleResize = () => setIsMobile(window.innerWidth < 768);
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-    return isMobile;
-  };
-  const isMobile = useIsMobile();
-  
+
+  // Use a local mobile detection hook to avoid require and hook call issues
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Prevent horizontal scroll on mobile by setting CSS on mount
+  useEffect(() => {
+    if (isMobile) {
+      document.body.style.overflowX = 'hidden';
+      document.documentElement.style.overflowX = 'hidden';
+      document.body.style.width = '100vw';
+      document.documentElement.style.width = '100vw';
+    } else {
+      document.body.style.overflowX = '';
+      document.documentElement.style.overflowX = '';
+      document.body.style.width = '';
+      document.documentElement.style.width = '';
+    }
+    return () => {
+      document.body.style.overflowX = '';
+      document.documentElement.style.overflowX = '';
+      document.body.style.width = '';
+      document.documentElement.style.width = '';
+    };
+  }, [isMobile]);
+
   // No slides needed for iframe modal
 
   return (
     <>
-      <section id="gallery" className="py-20 px-4 bg-gradient-to-br from-blue-200 via-white to-orange-200 overflow-hidden relative">
+      <section
+        id="gallery"
+        className="py-20 px-4 bg-gradient-to-br from-blue-200 via-white to-orange-200 overflow-hidden relative"
+        style={{ maxWidth: '100vw', overflowX: 'hidden' }}
+      >
         {/* Original decorative background shapes */}
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-blue-100 via-pink-100 to-yellow-100 opacity-30 rounded-full blur-2xl z-0" aria-hidden="true"></div>
         <div className="absolute bottom-0 left-0 w-60 h-60 bg-gradient-to-br from-purple-200 via-blue-100 to-pink-100 opacity-40 rounded-full blur-3xl z-0" aria-hidden="true"></div>
@@ -79,18 +101,30 @@ const Gallery: React.FC = () => {
           modules={[Pagination, Navigation]}
           navigation={!isMobile}
           loop={true}
-          slidesPerView={3}
-          spaceBetween={40}
+          slidesPerView={isMobile ? 1 : 3}
+          spaceBetween={isMobile ? 20 : 40}
           pagination={{ clickable: true }}
           className="portfolio-swiper"
+          style={{ maxWidth: '100vw', overflowX: 'hidden' }}
         >
           {galleryVideos.map((video, idx) => (
             <SwiperSlide key={idx} onClick={() => setModalIndex(idx)}>
-              <div className="gallery-item">
-                <div className="gallery-thumbnail">
-                  <img src={video.thumbnail} alt={video.title} className="thumbnail-image" />
+              <div
+                className="gallery-item"
+                style={isMobile ? { maxWidth: '100vw', margin: '0 auto', overflowX: 'hidden' } : {}}
+              >
+                <div
+                  className="gallery-thumbnail"
+                  style={isMobile ? { width: '100vw', maxWidth: 400, height: 200, margin: '0 auto', overflowX: 'hidden' } : {}}
+                >
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="thumbnail-image"
+                    style={isMobile ? { width: '100vw', maxWidth: 400, height: 200, objectFit: 'cover', margin: '0 auto', display: 'block' } : {}}
+                  />
                   <div className="thumbnail-overlay">
-                    <PlayCircle size={64} className="play-icon" />
+                    <PlayCircle size={isMobile ? 96 : 64} className="play-icon" />
                   </div>
                 </div>
                 <h3 className="gallery-title text-gray-800">{video.title}</h3>
@@ -119,12 +153,16 @@ const Gallery: React.FC = () => {
           onClick={() => setModalIndex(-1)}
         >
           <div
-            style={{ position: 'relative', width: '90vw', maxWidth: 1200, aspectRatio: '16/9', background: '#000' }}
+            style={
+              isMobile
+                ? { position: 'relative', width: '98vw', maxWidth: 700, aspectRatio: '16/9', background: '#000' }
+                : { position: 'relative', width: '90vw', maxWidth: 1200, aspectRatio: '16/9', background: '#000' }
+            }
             onClick={e => e.stopPropagation()}
           >
             <iframe
               src={galleryVideos[modalIndex].vimeoUrl}
-              style={{ width: '100%', height: '100%', border: 0 }}
+              style={isMobile ? { width: '100%', height: '100%', minHeight: 300, border: 0 } : { width: '100%', height: '100%', border: 0 }}
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
               allowFullScreen
               title={galleryVideos[modalIndex].title}
@@ -141,7 +179,7 @@ const Gallery: React.FC = () => {
                 borderRadius: 4,
                 padding: '6px 12px',
                 cursor: 'pointer',
-                fontSize: 18,
+                fontSize: 24,
               }}
             >
               ×
