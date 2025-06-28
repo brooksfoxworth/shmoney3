@@ -13,14 +13,14 @@ const Portfolio = () => {
       title: 'Viva La Noche',
       category: 'Web Design',
       result: 'Stunning Digital Experience',
-      image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/assets/images/vln thumbnail.jpg',
       description: 'Crafted a stunning web design that captures the vibrant essence of Japanese cuisine and nightlife culture',
       icon: Target,
       color: 'from-blue-500 to-cyan-400',
       link: 'https://vlncatering.com/'
     },
     {
-      title: 'Jlew_Lifts',
+      title: '@jlew_lifts',
       category: 'Social Media Growth',
       result: 'Community Building',
       image: '/assets/images/jacob thumnail.png',
@@ -33,7 +33,7 @@ const Portfolio = () => {
       title: 'A&I Hospitality',
       category: 'Growth Marketing',
       result: 'Market Breakthrough',
-      image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/assets/images/a&i thumbnail.jpg',
       description: 'Connecting talented hospitality professionals with top restaurants through strategic staffing solutions',
       icon: TrendingUp,
       color: 'from-purple-500 to-blue-400'
