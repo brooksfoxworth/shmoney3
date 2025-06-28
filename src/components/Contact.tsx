@@ -40,7 +40,7 @@ const Contact = () => {
         reply_to: formData.email,
       };
 
-      console.log('Sending email with params:', templateParams);
+      // console.log('Sending email with params:', templateParams); // Removed for production optimization
 
       await emailjs.send(
         EMAILJS_SERVICE_ID,

@@ -114,14 +114,14 @@ const Gallery: React.FC = () => {
                 style={isMobile ? { maxWidth: '100vw', margin: '0 auto', overflowX: 'hidden' } : {}}
               >
                 <div
-                  className="gallery-thumbnail"
-                  style={isMobile ? { width: '100vw', maxWidth: 400, height: 200, margin: '0 auto', overflowX: 'hidden' } : {}}
+                className="gallery-thumbnail"
+                style={isMobile ? { width: '100%', maxWidth: 400, height: 200, margin: '0 auto', overflow: 'hidden', borderRadius: '0.75rem' } : {}}
                 >
                   <img
                     src={video.thumbnail}
                     alt={video.title}
                     className="thumbnail-image"
-                    style={isMobile ? { width: '100vw', maxWidth: 400, height: 200, objectFit: 'cover', margin: '0 auto', display: 'block' } : {}}
+                    style={isMobile ? { width: '100%', maxWidth: 400, height: 200, objectFit: 'cover', margin: '0 auto', display: 'block', borderRadius: '0.75rem' } : {}}
                   />
                   <div className="thumbnail-overlay">
                     <PlayCircle size={isMobile ? 96 : 64} className="play-icon" />
