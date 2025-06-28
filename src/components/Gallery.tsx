@@ -81,7 +81,7 @@ const Gallery: React.FC = () => {
     <>
       <section
         id="gallery"
-        className="py-20 px-4 bg-gradient-to-br from-blue-200 via-white to-orange-200 overflow-hidden relative"
+        className="py-20 px-4 animated-gallery-bg overflow-hidden relative"
         style={{ maxWidth: '100vw', overflowX: 'hidden' }}
       >
         {/* Original decorative background shapes */}

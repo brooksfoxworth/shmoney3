@@ -1,3 +1,43 @@
+/* Animated background for Gallery section */
+
+/* Updated to match the "services" title gradient */
+/* Softer, less vivid version of the services title gradient */
+.animated-gallery-bg {
+  background: linear-gradient(90deg, #93c5fd 0%, #dbeafe 40%, #fde68a 80%, #fbcfe8 100%);
+  background-size: 300% 200%;
+  animation: gallery-waves 60s cubic-bezier(0.4,0,0.2,1) infinite;
+  position: relative;
+}
+
+@keyframes gallery-waves {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 55%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 45%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gallery-gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 /* Code for Gallery.css */
 .gallery-item {
   cursor: pointer;
